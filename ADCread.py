@@ -60,8 +60,7 @@ class MCP3208:
         self.spi.close()
 
 if __name__ == '__main__':
-    # --- Example Usage ---
-    
+   
     # Voltage reference for the ADC. If you tied VREF to 3.3V, use that value.
     V_REF = 3.3 
     
