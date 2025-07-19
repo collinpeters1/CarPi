@@ -8,7 +8,7 @@ import termios
 import tty
 import threading
 import ADC_Chip
-import Terminal_Input
+import terminal_input
 import functions
 
 
