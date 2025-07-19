@@ -52,8 +52,8 @@ def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
             if raw_value != -1:
                 # Convert the raw ADC value to a voltage
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
-                
-                print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V")
+                s_voltage = ADC_Chip.get_stable_voltage(raw_value, V_REF , channel_to_read)
+                print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V, Smooth Voltage = {s_voltage:.2f}V")
             
             # Wait for a second before the next reading
             time.sleep(1)

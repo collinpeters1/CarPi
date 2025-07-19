@@ -41,29 +41,20 @@ class MCP3208:
         self.spi.close()
 
 
-def get_stable_voltage(channel, num_readings=5, delay=0.01):
+def get_stable_voltage(raw_value, V_REF, channel, num_readings=5, delay=0.01):
     """
     Reads an ADC channel multiple times and returns an average voltage.
     Helps to smooth out noisy readings.
     """
-    adc = MCP3208(0, 0)
-
-    if not adc:
-        print("ADC not initialized. Call setup_pins() first.")
-        return 0.0
 
     readings = []
     for _ in range(num_readings):
-        raw_value = adc.read_adc(channel)
         if raw_value != -1:
             # Convert 12-bit raw value (0-4095) to voltage
-            voltage = raw_value * (ADC_VREF / 4095.0)
+            voltage = raw_value * (V_REF / 4095.0)
             readings.append(voltage)
         time.sleep(delay)
     
-    if not readings:
-        return 0.0
-        
     return sum(readings) / len(readings)
 
 def voltage_to_angle(voltage, v_load, v_grow):
