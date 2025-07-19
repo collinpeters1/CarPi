@@ -48,8 +48,8 @@ def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
             raw_value = adc.read_adc(channel_to_read)
             
 
-            print("Reading ADC values. Press Ctrl+C to exit.\n")
-            print("Press 'l' to move CW, Press 'g' to move CCW")
+            print("Reading ADC values. Press Ctrl+C to exit.")
+            print("Press 'l' to move CW, Press 'g' to move CCW\n")
             if raw_value != -1:
                 # Convert the raw ADC value to a voltage
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
