@@ -53,6 +53,7 @@ def get_stable_voltage(raw_value, V_REF, channel, num_readings=5, delay=0.01):
             # Convert 12-bit raw value (0-4095) to voltage
             voltage = raw_value * (V_REF / 4095.0)
             readings.append(voltage)
+            print(readings)
         time.sleep(delay)
     
     return sum(readings) / len(readings)
