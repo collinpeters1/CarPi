@@ -46,6 +46,8 @@ def get_stable_voltage(channel, num_readings=5, delay=0.01):
     Reads an ADC channel multiple times and returns an average voltage.
     Helps to smooth out noisy readings.
     """
+    adc = MCP3208(0, 0)
+
     if not adc:
         print("ADC not initialized. Call setup_pins() first.")
         return 0.0
