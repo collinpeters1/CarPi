@@ -3,6 +3,9 @@ import RPi.GPIO as GPIO
 import os
 import spidev
 import time
+import sys
+import termios
+import tty
 import threading
 import ADC_Chip
 import Terminal_Input
