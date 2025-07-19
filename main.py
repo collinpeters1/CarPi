@@ -19,10 +19,10 @@ if __name__ == '__main__':
    
     # Voltage reference for the ADC (3.3V for the ADC Chip).
     V_REF = 3.3 
-    
     # The ADC has 12-bit resolution, so the maximum value is 2^12 - 1 = 4095
     MAX_ADC_VALUE = 4095
-    
     adc = None
 
+    # This function is how the user can interact with the car
+    # The function takes in several hard coded values (later will be passed from a calibration function)
     terminal_input.terminal_interface(V_REF, MAX_ADC_VALUE, adc)
