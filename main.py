@@ -2,6 +2,9 @@
 
 import spidev
 import time
+import threading
+import Keyboad_Input
+
 
 class MCP3208:
     def __init__(self, spi_bus=0, spi_device=0):
