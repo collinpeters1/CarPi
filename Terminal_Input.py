@@ -17,11 +17,11 @@ def get_keypress():
 
 # Background Threading for keyboard input (listening)
 def listen_for_keys(stop_event):
-    print("Press 's' to save, 'q' to quit.")
+    print("Press 'g' to rotate CCW, 'l' to rotate CW.")
     while not stop_event.is_set():
         key = get_keypress()
-        if key == 's':
-            print("✅ SAVE action triggered!")
-        elif key == 'q':
-            print("🛑 Quit requested.")
+        if key == 'g':
+            print("g pressed")
+        elif key == 'l':
+            print("l pressed")
             stop_event.set()  # signal to exit main loop
