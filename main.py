@@ -45,11 +45,8 @@ if __name__ == '__main__':
 
             if raw_value != -1:
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
-                print("\n===================================\n")
                 print("Key Menu: Press 'g' for CCW, 'l' for CW\n")
-                print("-----------------------------------")
-                print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V\n")
-                print("===================================\n")
+                print("Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V\n")
 
             time.sleep(1)
             functions.clear_screen()
