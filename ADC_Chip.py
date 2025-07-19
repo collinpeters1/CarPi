@@ -55,7 +55,6 @@ def get_stable_voltage(V_REF, num_readings=5, delay=0.01):
             voltage = raw_value * (V_REF / 4095.0)
             readings.append(voltage)
             time.sleep(delay)
-    
     return sum(readings) / len(readings)
 
 def voltage_to_angle(voltage, v_load, v_grow):

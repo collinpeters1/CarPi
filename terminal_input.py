@@ -40,8 +40,6 @@ def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
         # Initialize the ADC on SPI bus 0, chip select 0 (CE:0)
         adc = ADC_Chip.MCP3208(0, 0)
         
-        print("Reading ADC values. Press Ctrl+C to exit.")
-        
         # Loop forever, reading from channel 0
         while True:
             # Select the channel you want to read (0-7)
@@ -49,6 +47,8 @@ def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
             
             raw_value = adc.read_adc(channel_to_read)
             
+
+            print("Reading ADC values. Press Ctrl+C to exit.\nPress l to move CW, Press g to move CCW\n")
             if raw_value != -1:
                 # Convert the raw ADC value to a voltage
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
