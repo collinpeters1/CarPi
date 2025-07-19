@@ -54,7 +54,6 @@ def get_stable_voltage(V_REF, num_readings=5, delay=0.01):
             raw_value = adc.read_adc(0)
             voltage = raw_value * (V_REF / 4095.0)
             readings.append(voltage)
-            print(readings)
             time.sleep(delay)
     
     return sum(readings) / len(readings)
