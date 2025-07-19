@@ -24,6 +24,10 @@ if __name__ == '__main__':
     MAX_ADC_VALUE = 4095
     
     adc = None
+
+    terminal_input.terminal_interface(V_REF, MAX_ADC_VALUE, adc)
+
+"""
     try:
         # Initialize the ADC on SPI bus 0, chip select 0 (CE:0)
         adc = ADC_Chip.MCP3208(0, 0)
@@ -57,3 +61,5 @@ if __name__ == '__main__':
             print("SPI connection closed.")
             GPIO.cleanup()
             print("GPIOs cleaned up.")
+
+"""
