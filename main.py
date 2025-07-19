@@ -24,36 +24,46 @@ if __name__ == '__main__':
     MAX_ADC_VALUE = 4095
     
     adc = None
+
+    # Create a stop_event to share between threads
+    stop_event = threading.Event()
     try:
         # Initialize the ADC on SPI bus 0, chip select 0 (CE:0)
         adc = ADC_Chip.MCP3208(0, 0)
         
-        print("Reading ADC values. Press Ctrl+C to exit.")
-        
-        # Loop forever, reading from channel 0
-        while True:
-            # Select the channel you want to read (0-7)
+
+        # Start the keyboard listener in a background thread
+        key_thread = threading.Thread(target=terminal_input.listen_for_keys, args=(stop_event,))
+        key_thread.daemon = True
+        key_thread.start()
+
+        print("Reading ADC values. Press 'g' for CCW, 'l' for CW. Ctrl+C to exit.")
+
+        while not stop_event.is_set():
             channel_to_read = 0
-            
             raw_value = adc.read_adc(channel_to_read)
-            
+
             if raw_value != -1:
-                # Convert the raw ADC value to a voltage
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
-                
+                print("===================================")
+                print("Key Menu: Press 'g' for CCW, 'l' for CW")
+                print("-----------------------------------")
                 print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V")
-            
-            # Wait for a second before the next reading
+                print("===================================")
+
             time.sleep(1)
             functions.clear_screen()
 
     except KeyboardInterrupt:
         print("\nProgram terminated by user.")
+
     except Exception as e:
         print(f"An error occurred: {e}")
+
     finally:
+        stop_event.set()
         if adc:
             adc.close()
             print("SPI connection closed.")
-            GPIO.cleanup()
-            print("GPIOs cleaned up.")
+        GPIO.cleanup()
+        print("GPIOs cleaned up.")
