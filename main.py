@@ -1,10 +1,14 @@
 # Original code modified and taken from Collin Peters ADCread.py file
 import RPi.GPIO as GPIO
+import os
 import spidev
 import time
 import threading
 import ADC_Chip
 import Terminal_Input
+import functions
+
+
 
 
 # The Program Begins Here!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -38,6 +42,7 @@ if __name__ == '__main__':
             
             # Wait for a second before the next reading
             time.sleep(1)
+            functions.clear_screen()
 
     except KeyboardInterrupt:
         print("\nProgram terminated by user.")
