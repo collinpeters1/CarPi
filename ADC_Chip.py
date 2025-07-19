@@ -50,7 +50,7 @@ def get_stable_voltage(V_REF, num_readings=5, delay=0.01):
     readings = []
     for _ in range(num_readings):
             # Convert 12-bit raw value (0-4095) to voltage
-            raw_value = read_adc(0,0)
+            raw_value = MCP3208.read_adc(0,0)
             voltage = raw_value * (V_REF / 4095.0)
             readings.append(voltage)
             print(readings)
