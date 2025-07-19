@@ -46,11 +46,12 @@ def get_stable_voltage(V_REF, num_readings=5, delay=0.01):
     Reads an ADC channel multiple times and returns an average voltage.
     Helps to smooth out noisy readings.
     """
-
+    adc = MCP3208(0,0)
     readings = []
     for _ in range(num_readings):
             # Convert 12-bit raw value (0-4095) to voltage
-            raw_value = MCP3208.read_adc(0,0)
+            channel = 0
+            raw_value = adc.read_adc(0)
             voltage = raw_value * (V_REF / 4095.0)
             readings.append(voltage)
             print(readings)
