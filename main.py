@@ -37,7 +37,7 @@ if __name__ == '__main__':
         key_thread.daemon = True
         key_thread.start()
 
-        print("Reading ADC values. Press 'g' for CCW, 'l' for CW. Ctrl+C to exit.")
+        print("Reading ADC values. Ctrl+C to exit.\n")
 
         while not stop_event.is_set():
             channel_to_read = 0
@@ -45,11 +45,11 @@ if __name__ == '__main__':
 
             if raw_value != -1:
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
-                print("===================================")
-                print("Key Menu: Press 'g' for CCW, 'l' for CW")
+                print("\n===================================\n")
+                print("Key Menu: Press 'g' for CCW, 'l' for CW\n")
                 print("-----------------------------------")
-                print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V")
-                print("===================================")
+                print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V\n")
+                print("===================================\n")
 
             time.sleep(1)
             functions.clear_screen()
