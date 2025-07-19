@@ -1,5 +1,5 @@
 # Original code modified and taken from Collin Peters ADCread.py file
-
+import RPi.GPIO as GPIO
 import spidev
 import time
 import threading
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     adc = None
     try:
         # Initialize the ADC on SPI bus 0, chip select 0 (CE:0)
-        adc = MCP3208(0, 0)
+        adc = ADC_Chip.MCP3208(0, 0)
         
         print("Reading ADC values. Press Ctrl+C to exit.")
         
