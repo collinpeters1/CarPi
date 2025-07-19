@@ -40,6 +40,12 @@ p = None
         # https://sourceforge.net/p/raspberry-gpio-python/wiki/PWM/
         p.start(speed)
         print(f"Motor moving backward at {speed}% speed.") 
+        
+    def motor_brake():
+        p.stop()
+        GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
+        GPIO.output(MOTOR_IN2_PIN, GPIO.LOW)
+        
 
     
     def motor_drive(direction, speed):
