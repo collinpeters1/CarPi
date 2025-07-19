@@ -3,6 +3,7 @@
 import spidev
 import time
 import threading
+import ADC_Chip
 import Keyboad_Input
 
 
