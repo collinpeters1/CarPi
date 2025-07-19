@@ -23,7 +23,7 @@ p = None
         GPIO.setup(MOTOR_IN2_PIN, GPIO.OUT)
         GPIO.setup(ENABLE_PIN, GPIO.OUT)
         
-        p = GPIO.PWM(ENABLE_PIN, GPIO.OUT)
+        p = GPIO.PWM(ENABLE_PIN, PWM_FREQUENCY)
         print("GPIO enabled --- you are clear for launch")
         
     
