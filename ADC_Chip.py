@@ -24,7 +24,7 @@ class MCP3208:
         # Byte 2: Config bits (Single-ended mode, channel selection)
         # Byte 3: Dummy byte to clock out the rest of the data
         command = [0x06 | (channel >> 2),          # 0x06 = 0b00000110  →  Start=1, SGL=1, D2
-        (ch & 0x03) << 6,          # D1-D0 shifted into the top of byte 2
+        (channel & 0x03) << 6,          # D1-D0 shifted into the top of byte 2
        0x00]
         
         # The spi.xfer2 function sends the command and returns the received data.
