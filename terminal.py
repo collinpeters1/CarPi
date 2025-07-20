@@ -57,6 +57,8 @@ def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
             raw_value = adc.read_adc(channel_to_read)
             
             # Setup threading to see if a user presses a valid key
+            """threading.Thread(target=listen_for_keys, args=(stop_event,), daemon=True).start()"""
+            # This should work ^^^
 
             print("Reading ADC values. Press Ctrl+C to exit.")
             print("Press 'l' to move CW, Press 'g' to move CCW\n")
