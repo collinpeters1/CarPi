@@ -26,6 +26,4 @@ if __name__ == '__main__':
     # The ADC has 12-bit resolution, so the maximum value is 2^12 - 1 = 4095
     MAX_ADC_VALUE = 4095
     
-    adc = None
-
-    terminal.terminal_interface(V_REF, MAX_ADC_VALUE, adc)
+    terminal.terminal_interface(V_REF, MAX_ADC_VALUE)

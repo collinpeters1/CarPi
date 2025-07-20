@@ -13,6 +13,7 @@ import os
 import time
 import ADC_Chip
 import functions
+import queue
 
 
 # Non-Blocking Key Press Function
@@ -27,15 +28,16 @@ def get_keypress():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
 
-# Function for Background Threading and keyboard input (listening)
-def listen_for_keys(stop_event):
-    while not stop_event.is_set():
+# Function to listen in the background for keyboard inputs
+# *The function then returns the key input or does something
+# with the key input (THIS IS TBD in the future)*
+def listen_for_keys():
+    while True:
         key = get_keypress()
         if key == 'g':
-            print("g pressed")
+            print("\ng pressed")
         elif key == 'l':
-            print("l pressed")
-            stop_event.set()  # signal to exit main loop
+            print("\nl pressed")
 
 # Function to clear the terminal window
 def clear_screen():
@@ -44,22 +46,22 @@ def clear_screen():
 ########################################################
 #    This is the function that is called to main.py    #
 ########################################################
-def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
+def terminal_interface(V_REF, MAX_ADC_VALUE):
     try:
         # Initialize the ADC on SPI bus 0, chip select 0 (CE:0)
         adc = ADC_Chip.MCP3208(0, 0)
         
+        # Setup threading to see if a user presses a valid key
+        """key_listener = threading.Thread(target=listen_for_keys, daemon=True)
+        key_listener.start()"""
+        # This should work ^^^
+
         # Loop forever, reading from channel 0
         while True:
             # Select the channel you want to read (0-7)
             channel_to_read = 0
-            
             raw_value = adc.read_adc(channel_to_read)
             
-            # Setup threading to see if a user presses a valid key
-            """threading.Thread(target=listen_for_keys, args=(stop_event,), daemon=True).start()"""
-            # This should work ^^^
-
             print("Reading ADC values. Press Ctrl+C to exit.")
             print("Press 'l' to move CW, Press 'g' to move CCW\n")
             if raw_value != -1:
