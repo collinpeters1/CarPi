@@ -1,9 +1,15 @@
+# Purpos of this file is to handle the user interface (command terminal for now).
+# This file will do everything from displaying messages on the terminal
+# to handling keyboard input from the user. In the future this will turn into
+# a GUI interface.
+
 import RPi.GPIO as GPIO
 import threading
 import sys
 import termios
 import tty
 import spidev
+import os
 import time
 import ADC_Chip
 import functions
@@ -21,9 +27,8 @@ def get_keypress():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
 
-# Background Threading for keyboard input (listening)
+# Function for Background Threading and keyboard input (listening)
 def listen_for_keys(stop_event):
-    print("Press 'g' to rotate CCW, 'l' to rotate CW.")
     while not stop_event.is_set():
         key = get_keypress()
         if key == 'g':
@@ -32,8 +37,12 @@ def listen_for_keys(stop_event):
             print("l pressed")
             stop_event.set()  # signal to exit main loop
 
+# Function to clear the terminal window
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 ########################################################
-# This will be the function that is called to main.py  #
+#    This is the function that is called to main.py    #
 ########################################################
 def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
     try:
@@ -47,6 +56,7 @@ def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
             
             raw_value = adc.read_adc(channel_to_read)
             
+            # Setup threading to see if a user presses a valid key
 
             print("Reading ADC values. Press Ctrl+C to exit.")
             print("Press 'l' to move CW, Press 'g' to move CCW\n")
@@ -58,7 +68,7 @@ def terminal_interface(V_REF, MAX_ADC_VALUE, adc):
             
             # Wait for a second before the next reading
             time.sleep(1)
-            functions.clear_screen()
+            clear_screen()
 
     except KeyboardInterrupt:
         print("\nProgram terminated by user.")

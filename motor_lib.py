@@ -1,14 +1,13 @@
-#motor functions for PWM control
+# Motor functions for PWM control
+
 import RPi.GPIO as GPIO
+
 # GLOBAL PIN DEFINITIONS 
 # PINS ARE BCM!!!!!!!!!!!!!
 MOTOR_IN1_PIN = 5
 MOTOR_IN2_PIN = 6
 ENABLE_PIN = 12
 PWM_FREQUENCY = 300
-
-
-
 # Global PWM object
 p = None
 

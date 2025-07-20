@@ -1,4 +1,7 @@
-# Original code modified and taken from Collin Peters ADCread.py file
+# Created by Collin Peters and Stuart Plaugher
+# Dr. Wistey's Lab Group (EPEE), Summer 2025
+
+
 import RPi.GPIO as GPIO
 import os
 import spidev

@@ -1,7 +1,10 @@
+# This file is meant to house everything related to the ADC chip.
+# The file creates a class for the ADC Chip to read the data from
+# and the file contains functions for reading voltage and angles
+# from the SPI data.
+
 import spidev
 import time
-
-
 class MCP3208:
     def __init__(self, spi_bus=0, spi_device=0):
         self.spi = spidev.SpiDev()
@@ -12,6 +15,7 @@ class MCP3208:
         self.spi.max_speed_hz = 1000000
         self.spi.mode = 0
 
+    # Function to read data from the ADC chip
     def read_adc(self, channel):
         if not 0 <= channel <= 7:
             print("Invalid channel. Must be between 0 and 7.")
@@ -37,15 +41,14 @@ class MCP3208:
         value = ((adc_data[1] & 0x0F) << 8) | adc_data[2]
         return value
 
+    # Function to close the class
     def close(self):
         self.spi.close()
 
 
+# Reads an ADC channel multiple times and return an average voltage.
+# Helps to smooth out noisy readings.
 def get_stable_voltage(V_REF, num_readings=5, delay=0.01):
-    """
-    Reads an ADC channel multiple times and returns an average voltage.
-    Helps to smooth out noisy readings.
-    """
     adc = MCP3208(0,0)
     readings = []
     for _ in range(num_readings):
@@ -57,8 +60,9 @@ def get_stable_voltage(V_REF, num_readings=5, delay=0.01):
             time.sleep(delay)
     return sum(readings) / len(readings)
 
+
+# Converts a voltage reading to a 0-180 degree angle.
 def voltage_to_angle(voltage, v_load, v_grow):
-    """Converts a voltage reading to a 0-180 degree angle."""
     if (v_load - v_grow) == 0:
         return 0 # Avoid division by zero
     angle = 180 * (voltage - v_grow) / (v_load - v_grow)
