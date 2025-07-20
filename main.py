@@ -8,7 +8,7 @@ import termios
 import tty
 import threading
 import ADC_Chip
-import terminal_input
+import terminal
 import functions
 
 
@@ -25,4 +25,4 @@ if __name__ == '__main__':
     
     adc = None
 
-    terminal_input.terminal_interface(V_REF, MAX_ADC_VALUE, adc)
+    terminal.terminal_interface(V_REF, MAX_ADC_VALUE, adc)
