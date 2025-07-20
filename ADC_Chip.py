@@ -5,6 +5,8 @@
 
 import spidev
 import time
+
+# This Class is meant for the MCP3204-C from Micron (ADC)
 class MCP3208:
     def __init__(self, spi_bus=0, spi_device=0):
         self.spi = spidev.SpiDev()
@@ -41,24 +43,21 @@ class MCP3208:
         value = ((adc_data[1] & 0x0F) << 8) | adc_data[2]
         return value
 
-    # Function to close the class
-    def close(self):
-        self.spi.close()
-
-
-# Reads an ADC channel multiple times and return an average voltage.
-# Helps to smooth out noisy readings.
-def get_stable_voltage(V_REF, num_readings=5, delay=0.01):
-    adc = MCP3208(0,0)
-    readings = []
-    for _ in range(num_readings):
+    # Reads an ADC channel multiple times and return an average voltage.
+    # Helps to smooth out noisy readings.
+    def get_stable_voltage(self, channel, V_REF, num_readings=5, delay=0.01):
+        readings = []
+        for _ in range(num_readings):
             # Convert 12-bit raw value (0-4095) to voltage
-            channel = 0
-            raw_value = adc.read_adc(0)
+            raw_value = self.read_adc(channel)
             voltage = raw_value * (V_REF / 4095.0)
             readings.append(voltage)
             time.sleep(delay)
-    return sum(readings) / len(readings)
+        return sum(readings) / len(readings)
+
+    # Function to close the instance
+    def close(self):
+        self.spi.close()
 
 
 # Converts a voltage reading to a 0-180 degree angle.
