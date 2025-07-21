@@ -15,6 +15,14 @@ import time
 import ADC_Chip
 import queue
 
+# Limited-size queue to store a single unprocessed key at a time
+key_queue = queue.Queue(maxsize=1)
+
+
+#####################################
+#           Functions               #
+#####################################
+
 # Non-Blocking Key Press Function
 def get_keypress(timeout=0.1):
     fd = sys.stdin.fileno()  # Get the file descriptor for standard input (keyboard)
@@ -49,9 +57,6 @@ def listen_for_keys():
 # This funciton is meant to keep the user from button mashing and bricking the program
 # The function performs an action if a valid key is pressed and returns command line time
 # which is meant to enforce the cooldown
-#
-# Limited-size queue to store a single unprocessed key at a time
-key_queue = queue.Queue(maxsize=1)
 def process_key_queue(last_command_time, cooldown):
     try:
         key = key_queue.get_nowait()
