@@ -39,8 +39,7 @@ def motor_drive(direction, speed):
         GPIO.output(MOTOR_IN2_PIN, GPIO.HIGH)
         p.start(speed)
 
-# Function to be used as a motor brake to stop the motor in
-# the motor is stuck and begins to draw to much current.
+# Function to be used to stop the motor
 def motor_brake():
     p.stop()
     GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
