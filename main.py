@@ -3,12 +3,7 @@
 
 
 import RPi.GPIO as GPIO
-import os
-import spidev
 import time
-import sys
-import termios
-import tty
 import threading
 import ADC_Chip
 import terminal
@@ -51,8 +46,9 @@ def main():
                 print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V, Smooth Voltage = {s_voltage:.2f}V", flush=True)
             
             # Now Process a key command in queue if available
+            # The GPIO stuff happens in the process_key_queue function
             last_command_time = terminal.process_key_queue(last_command_time, cooldown)    
-            
+
             # Wait for a second before the next reading
             time.sleep(1)
             terminal.clear_screen()

@@ -4,15 +4,12 @@
 # a GUI interface.
 
 import RPi.GPIO as GPIO
-import threading
 import sys
 import termios
 import tty
 import select
-import spidev
 import os
 import time
-import ADC_Chip
 import queue
 
 # Limited-size queue to store a single unprocessed key at a time
