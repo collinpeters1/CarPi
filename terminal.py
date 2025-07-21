@@ -1,6 +1,6 @@
 # Purpos of this file is to handle the user interface (command terminal for now).
-# This file will do everything from displaying messages on the terminal
-# to handling keyboard input from the user. In the future this will turn into
+# This file will do everything from displaying messages on the terminal to
+# handling keyboard input from the user. In the future this will turn into
 # a GUI interface.
 
 import RPi.GPIO as GPIO
@@ -13,9 +13,7 @@ import spidev
 import os
 import time
 import ADC_Chip
-import queue # Future use
-# Limited-size queue to store a single unprocessed key at a time
-key_queue = queue.Queue(maxsize=1)
+import queue
 
 # Non-Blocking Key Press Function
 def get_keypress(timeout=0.1):
@@ -51,6 +49,9 @@ def listen_for_keys():
 # This funciton is meant to keep the user from button mashing and bricking the program
 # The function performs an action if a valid key is pressed and returns command line time
 # which is meant to enforce the cooldown
+#
+# Limited-size queue to store a single unprocessed key at a time
+key_queue = queue.Queue(maxsize=1)
 def process_key_queue(last_command_time, cooldown):
     try:
         key = key_queue.get_nowait()
@@ -59,9 +60,9 @@ def process_key_queue(last_command_time, cooldown):
         if current_time - last_command_time > cooldown:
             last_command_time = current_time
             if key == 'g':
-                print("\n'g' command processed", flush=True)
+                print("'g' command processed", flush=True)
             elif key == 'l':
-                print("\n'l' command processed", flush=True)
+                print("'l' command processed", flush=True)
         else:
             print("\nKey received too soon — ignoring (cooldown active)", flush=True)
 
@@ -92,9 +93,6 @@ def terminal_interface(V_REF, MAX_ADC_VALUE):
 
         # Loop forever, reading from channel 0
         while True:
-            # Process key in queue if available
-            last_command_time = process_key_queue(last_command_time, cooldown)
-
             # Select the channel you want to read (0-7)
             channel_to_read = 0
             raw_value = adc.read_adc(channel_to_read)
@@ -106,6 +104,9 @@ def terminal_interface(V_REF, MAX_ADC_VALUE):
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
                 s_voltage = adc.get_stable_voltage(channel_to_read, V_REF)
                 print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V, Smooth Voltage = {s_voltage:.2f}V", flush=True)
+            
+            # Now Process key in queue if available
+            last_command_time = process_key_queue(last_command_time, cooldown)    
             
             # Wait for a second before the next reading
             time.sleep(1)
