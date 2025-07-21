@@ -14,7 +14,8 @@ import os
 import time
 import ADC_Chip
 import queue # Future use
-
+# Limited-size queue to store a single unprocessed key at a time
+key_queue = queue.Queue(maxsize=1)
 
 # Non-Blocking Key Press Function
 def get_keypress(timeout=0.1):
@@ -38,15 +39,36 @@ def get_keypress(timeout=0.1):
     return None  # No key was pressed within the timeout
 
 # Function to listen in the background for keyboard inputs
-# *The function then returns the key input or does something
-# with the key input (THIS IS TBD in the future)*
 def listen_for_keys():
     while True:
         key = get_keypress()
-        if key == 'g':
-            print("\n'g' pressed",flush=True)
-        elif key == 'l':
-            print("\n'l' pressed",flush=True)
+        if key in ('g', 'l'):
+            try:
+                key_queue.put_nowait(key)
+            except queue.Full:
+                pass
+
+# This funciton is meant to keep the user from button mashing and bricking the program
+# The function performs an action if a valid key is pressed and returns command line time
+# which is meant to enforce the cooldown
+def process_key_queue(last_command_time, cooldown):
+    try:
+        key = key_queue.get_nowait()
+        current_time = time.time()
+
+        if current_time - last_command_time > cooldown:
+            last_command_time = current_time
+            if key == 'g':
+                print("\n'g' command processed", flush=True)
+            elif key == 'l':
+                print("\n'l' command processed", flush=True)
+        else:
+            print("\nKey received too soon — ignoring (cooldown active)", flush=True)
+
+    except queue.Empty:
+        pass
+
+    return last_command_time
 
 # Function to clear the terminal window
 def clear_screen():
@@ -64,8 +86,15 @@ def terminal_interface(V_REF, MAX_ADC_VALUE):
         key_listener = threading.Thread(target=listen_for_keys, daemon=True)
         key_listener.start()
 
+        # Queue Control Variables to enforce cooldown
+        last_command_time = 0
+        cooldown = 0.5  # seconds between allowed command executions
+
         # Loop forever, reading from channel 0
         while True:
+            # Process key in queue if available
+            last_command_time = process_key_queue(last_command_time, cooldown)
+
             # Select the channel you want to read (0-7)
             channel_to_read = 0
             raw_value = adc.read_adc(channel_to_read)
