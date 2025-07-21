@@ -66,8 +66,15 @@ def process_key_queue(last_command_time, cooldown):
             if key == 'g':
                 print("'g' command processed", flush=True)
 
+                # We need to drive the motor to the grow position
+                # Then stop the motor
+                
+
             elif key == 'l':
                 print("'l' command processed", flush=True)
+
+                # We need to drive the motor to the load postion
+                # Then stop the motor
         else:
             print("\nKey received too soon — ignoring (cooldown active)", flush=True)
 
