@@ -47,15 +47,15 @@ def main():
                 # Convert the raw ADC value to a voltage
                 voltage = (raw_value * V_REF) / MAX_ADC_VALUE
                 s_voltage = adc.get_stable_voltage(channel_to_read, V_REF)
-                print(f"-> ADC: {s_voltagevoltage:.2f}V | Key Command: {last_key_pressed} ", end='\r', flush=True)
-                #print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V, Smooth Voltage = {s_voltage:.2f}V", flush=True)
+                #print(f"-> ADC: {s_voltagevoltage:.2f}V | Key Command: {last_key_pressed} ", end='\r', flush=True)
+                print(f"Channel {channel_to_read}: Raw Value = {raw_value:<4}, Voltage = {voltage:.2f}V, Smooth Voltage = {s_voltage:.2f}V", flush=True)
             
             # Now Process a key command in queue if available
             last_command_time = terminal.process_key_queue(last_command_time, cooldown)    
             
             # Wait for a second before the next reading
-            #time.sleep(1)
-            #terminal.clear_screen()
+            time.sleep(1)
+            terminal.clear_screen()
 
     except KeyboardInterrupt:
         print("\nProgram terminated by user.")
