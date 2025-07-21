@@ -12,7 +12,6 @@ import spidev
 import os
 import time
 import ADC_Chip
-import functions
 import queue
 
 

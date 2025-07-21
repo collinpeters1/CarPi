@@ -12,7 +12,6 @@ import tty
 import threading
 import ADC_Chip
 import terminal
-import functions
 
 
 
