@@ -51,9 +51,8 @@ def terminal_interface(V_REF, MAX_ADC_VALUE):
         adc = ADC_Chip.MCP3208(0, 0)
         
         # Setup threading to see if a user presses a valid key
-        """key_listener = threading.Thread(target=listen_for_keys, daemon=True)
-        key_listener.start()"""
-        # This should work ^^^
+        key_listener = threading.Thread(target=listen_for_keys, daemon=True)
+        key_listener.start()
 
         # Loop forever, reading from channel 0
         while True:
