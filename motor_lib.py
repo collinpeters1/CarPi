@@ -11,11 +11,12 @@ PWM_FREQUENCY = 300
 # Global PWM object
 p = None
 
+##############################
+######## FUNCTION LIB ########
+##############################
 
-##### FUNCTION LIB ###########
-
+# Sets up GPIO to drive the CAR motor
 def setup_pins():
-    """initialize GPIO"""
     global p
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(MOTOR_IN1_PIN, GPIO.OUT)
@@ -23,36 +24,12 @@ def setup_pins():
     GPIO.setup(ENABLE_PIN, GPIO.OUT)
     
     p = GPIO.PWM(ENABLE_PIN, PWM_FREQUENCY)
-    print("GPIO enabled --- you are clear for launch")
-    
+    print("GPIO enabled --- you are clear for launch\n")
 
-def motor_forward(speed):
-    GPIO.output(MOTOR_IN1_PIN, GPIO.HIGH)
-    GPIO.output(MOTOR_IN2_PIN, GPIO.LOW)
-    # https://sourceforge.net/p/raspberry-gpio-python/wiki/PWM/
-    p.start(speed)
-    print(f"Motor moving forward at {speed}% speed.")
-
-def motor_backward(speed):
-    GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
-    GPIO.output(MOTOR_IN2_PIN, GPIO.HIGH)
-    # https://sourceforge.net/p/raspberry-gpio-python/wiki/PWM/
-    p.start(speed)
-    print(f"Motor moving backward at {speed}% speed.") 
-    
-def motor_brake():
-    p.stop()
-    GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
-    GPIO.output(MOTOR_IN2_PIN, GPIO.LOW)
-    
-
-
+# Function to drive the motor in a specified direction at a given speed.
+# :param direction: grow position 'g', load position 'l'
+# :param speed: int (0-100), is the dutry cycle for the motor speed
 def motor_drive(direction, speed):
-    """
-    Drives the motor in a specific direction at a given speed.
-    :param direction: grow position - g, load position - l
-    :param speed: int (0-100), the duty cycle for motor speed.
-    """
     if direction == 'g':
         GPIO.output(MOTOR_IN1_PIN, GPIO.HIGH)
         GPIO.output(MOTOR_IN2_PIN, GPIO.LOW)
@@ -61,3 +38,26 @@ def motor_drive(direction, speed):
         GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
         GPIO.output(MOTOR_IN2_PIN, GPIO.HIGH)
         p.start(speed)
+
+# Function to be used as a motor brake to stop the motor in
+# the motor is stuck and begins to draw to much current.
+def motor_brake():
+    p.stop()
+    GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
+    GPIO.output(MOTOR_IN2_PIN, GPIO.LOW)
+
+# Testing function to move the motor "forward"
+def motor_forward(speed):
+    GPIO.output(MOTOR_IN1_PIN, GPIO.HIGH)
+    GPIO.output(MOTOR_IN2_PIN, GPIO.LOW)
+    # https://sourceforge.net/p/raspberry-gpio-python/wiki/PWM/
+    p.start(speed)
+    print(f"Motor moving forward at {speed}% speed.")
+
+# Testing function to move the motor "backward"
+def motor_backward(speed):
+    GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
+    GPIO.output(MOTOR_IN2_PIN, GPIO.HIGH)
+    # https://sourceforge.net/p/raspberry-gpio-python/wiki/PWM/
+    p.start(speed)
+    print(f"Motor moving backward at {speed}% speed.") 
