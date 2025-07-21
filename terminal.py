@@ -11,6 +11,7 @@ import select
 import os
 import time
 import queue
+import motor_lib as motor
 
 # Limited-size queue to store a single unprocessed key at a time
 key_queue = queue.Queue(maxsize=1)
@@ -51,9 +52,9 @@ def listen_for_keys():
             except queue.Full:
                 pass
 
-# This funciton is meant to keep the user from button mashing and bricking the program
-# The function performs an action if a valid key is pressed and returns command line time
-# which is meant to enforce the cooldown
+# This funciton is meant to keep the user from button mashing and bricking the program.
+# The function performs an action (GPIO for motor control) if a valid key is pressed 
+# and returns command line time which is meant to enforce the cooldown.
 def process_key_queue(last_command_time, cooldown):
     try:
         key = key_queue.get_nowait()
@@ -61,8 +62,10 @@ def process_key_queue(last_command_time, cooldown):
 
         if current_time - last_command_time > cooldown:
             last_command_time = current_time
+
             if key == 'g':
                 print("'g' command processed", flush=True)
+
             elif key == 'l':
                 print("'l' command processed", flush=True)
         else:

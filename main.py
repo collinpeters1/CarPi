@@ -7,6 +7,7 @@ import time
 import threading
 import ADC_Chip
 import terminal
+import motor_lib as motor
 
 
 # Start your debug here
@@ -30,6 +31,9 @@ def main():
         # Queue Control Variables to enforce cooldown
         last_command_time = 0
         cooldown = 0.5  # seconds between allowed command executions
+
+        # Setup GPIO for motor control
+        motor.setup_pins()
 
         while True:
             # Select the channel you want to read (0-7)
