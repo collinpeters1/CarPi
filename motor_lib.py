@@ -61,3 +61,7 @@ def motor_backward(speed):
     # https://sourceforge.net/p/raspberry-gpio-python/wiki/PWM/
     p.start(speed)
     print(f"Motor moving backward at {speed}% speed.") 
+    
+def cleanup_pins():
+    motor_brake()
+    GPIO.cleanup()
