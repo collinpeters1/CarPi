@@ -65,7 +65,7 @@ def main():
         if adc:
             adc.close()
             print("SPI connection closed.")
-            GPIO.cleanup()
+            motor_lib.cleanup_pins()
             print("GPIOs cleaned up.")
 
 

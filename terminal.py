@@ -3,7 +3,7 @@
 # handling keyboard input from the user. In the future this will turn into
 # a GUI interface.
 
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import sys
 import termios
 import tty
