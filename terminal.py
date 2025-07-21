@@ -66,7 +66,7 @@ def process_key_queue(last_command_time, cooldown):
             if key == 'g':
                 print("'g' command processed", flush=True)
                 motor.motor_forward()
-                sleep(1)
+                time.sleep(1)
                 motor.motor_brake()
 
                 # We need to drive the motor to the grow position
@@ -76,7 +76,7 @@ def process_key_queue(last_command_time, cooldown):
             elif key == 'l':
                 print("'l' command processed", flush=True)
                 motor.motor_backward()
-                sleep(1)
+                time.sleep(1)
                 motor.motor_brake()
 
                 # We need to drive the motor to the load postion
