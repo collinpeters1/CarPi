@@ -17,14 +17,25 @@ p = None
 
 # Sets up GPIO to drive the CAR motor
 def setup_pins():
-    global p
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(MOTOR_IN1_PIN, GPIO.OUT)
-    GPIO.setup(MOTOR_IN2_PIN, GPIO.OUT)
-    GPIO.setup(ENABLE_PIN, GPIO.OUT)
+        global p
+    if direction == 'g':
+        GPIO.output(MOTOR_IN1_PIN, GPIO.HIGH)
+        GPIO.output(MOTOR_IN2_PIN, GPIO.LOW)
+    elif direction == 'l':
+        GPIO.output(MOTOR_IN1_PIN, GPIO.LOW)
+        GPIO.output(MOTOR_IN2_PIN, GPIO.HIGH)
+    if p:
+        p.ChangeDutyCycle(speed)
+    print(f"[DEBUG] Motor direction: {direction}, speed: {speed}")
     
-    p = GPIO.PWM(ENABLE_PIN, PWM_FREQUENCY)
-    print("GPIO enabled --- you are clear for launch\n")
+    # global p
+    # GPIO.setmode(GPIO.BCM)
+    # GPIO.setup(MOTOR_IN1_PIN, GPIO.OUT)
+    # GPIO.setup(MOTOR_IN2_PIN, GPIO.OUT)
+    # GPIO.setup(ENABLE_PIN, GPIO.OUT)
+    
+    # p = GPIO.PWM(ENABLE_PIN, PWM_FREQUENCY)
+    # print("GPIO enabled --- you are clear for launch\n")
 
 # Function to drive the motor in a specified direction at a given speed.
 # :param direction: grow position 'g', load position 'l'
