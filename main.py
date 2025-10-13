@@ -51,6 +51,7 @@ def main():
             
             # Now Process a key command in queue if available
             # The GPIO stuff happens in the process_key_queue function
+            terminal.currentvoltage(s_voltage)
             last_command_time = terminal.process_key_queue(last_command_time, cooldown)    
 
             # Wait for a second before the next reading

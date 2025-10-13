@@ -67,11 +67,8 @@ def process_key_queue(last_command_time, cooldown):
             if key == 'g':
                 print("'g' command processed", flush=True)
                 a = 1
-                s_voltage = 1
+                s_voltage = currentvoltage
                 while(a):
-                    channel_to_read = 0
-                    raw_value = adc.read_adc(channel_to_read)
-                    s_voltage = adc.get_stable_voltage(channel_to_read, adc.V_REF)
                     if s_voltage == motor.GROW_POS:
                         motor.motor_brake()
                         a = 0
@@ -98,3 +95,9 @@ def process_key_queue(last_command_time, cooldown):
 # Function to clear the terminal window
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
+<<<<<<< HEAD
+=======
+
+def currentvoltage(s_voltage):
+    return s_voltage
+>>>>>>> 1756eebd93c400a1075ab060d63acedefca74727
