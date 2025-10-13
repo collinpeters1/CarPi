@@ -67,8 +67,11 @@ def process_key_queue(last_command_time, cooldown):
             if key == 'g':
                 print("'g' command processed", flush=True)
                 a = 1
-                s_voltage = currentvoltage
+                channel_to_read = 0
+                raw_value = adc.read_adc(channel_to_read)
+                s_voltage = 0
                 while(a):
+                    s_voltage = adc.get_stable_voltage(channel_to_read, adc.V_REF)
                     if s_voltage == motor.GROW_POS:
                         motor.motor_brake()
                         a = 0
