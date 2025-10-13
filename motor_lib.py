@@ -2,6 +2,13 @@
 
 import RPi.GPIO as GPIO
 
+# Global Values for CAR pot
+MAX_LOAD_POS = 0.66
+LOAD_POS = 0.9
+GROW_POS = 2.35
+MAX_GROW_POS = 2.37
+
+
 # GLOBAL PIN DEFINITIONS 
 # PINS ARE BCM!!!!!!!!!!!!!
 MOTOR_IN1_PIN = 5
