@@ -6,6 +6,9 @@
 import spidev
 import time
 
+# Voltage reference for the ADC (3.3V for the ADC Chip).
+V_REF = 3.3 
+
 # This Class is meant for the MCP3204-C from Micron (ADC)
 class MCP3208:
     def __init__(self, spi_bus=0, spi_device=0):
