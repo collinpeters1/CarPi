@@ -95,9 +95,6 @@ def process_key_queue(last_command_time, cooldown):
 # Function to clear the terminal window
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
-<<<<<<< HEAD
-=======
 
 def currentvoltage(s_voltage):
     return s_voltage
->>>>>>> 1756eebd93c400a1075ab060d63acedefca74727
