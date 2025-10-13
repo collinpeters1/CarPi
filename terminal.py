@@ -73,7 +73,7 @@ def process_key_queue(last_command_time, cooldown):
                         motor.motor_brake()
                         a = 0
                     elif s_voltage != motor.LOAD_POS:
-                        motor.motor_forward()
+                        motor.motor_drive('g',20)
                         a = 1
 
             elif key == 'l':
