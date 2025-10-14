@@ -37,19 +37,24 @@ def setup_pins():
 
 # Testing this function
 def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
-    print("[TEST] Moving to Load Hard Stop...")
-    s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
-    while s_voltage<GROW_POS and s_voltage<MAX_GROW_POS:
-        # Obtain smooth voltage from the ADC
-        s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
-        print(f"[DEBUG] Pot voltage: {s_voltage:.2f} V, Target: {GROW_POS:.2f} V")
-        if s_voltage <= GROW_POS + tolerance:
-            break
-        motor_backward(speed)
+    print("[TEST] Stepping motor to Grow Position...")
+
+    while True:
+        # Step the motor for a brief moment
+        motor_forward(speed)
         time.sleep(0.05)
         motor_brake()
         time.sleep(0.01)
-    print("[TEST] Load hard stop reached.")
+
+        # Sample the voltage after each step
+        s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
+        print(f"[DEBUG] Pot voltage: {s_voltage:.2f} V, Target: {GROW_POS:.2f} V")
+
+        # Exit loop if within range or safety overtravel
+        if abs(s_voltage - GROW_POS) <= tolerance or s_voltage > MAX_GROW_POS:
+            break
+
+    print("[TEST] Grow position reached.")
 
 
 # Function to drive the motor in a specified direction at a given speed.
