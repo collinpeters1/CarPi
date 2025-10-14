@@ -39,7 +39,7 @@ def setup_pins():
 def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
     print("[TEST] Moving to Load Hard Stop...")
     s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
-    while s_voltage<GROW_POS & s_voltage<MAX_GROW_POS:
+    while s_voltage<GROW_POS and s_voltage<MAX_GROW_POS:
         # Obtain smooth voltage from the ADC
         s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
         print(f"[DEBUG] Pot voltage: {s_voltage:.2f} V, Target: {LOAD_POS:.2f} V")
