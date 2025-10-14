@@ -59,7 +59,7 @@ def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
 
 # This function moves the CAR to the load position
 # The load position needs to be set in the ADC_Chip.py file
-def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
+def move_to_load(adc, channel=0, tolerance=0.01, speed=25):
     print("Stepping motor to Load Position...")
 
     while True:

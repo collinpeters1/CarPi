@@ -70,10 +70,9 @@ def process_key_queue(last_command_time, cooldown, adc):
                 
             elif key == 'l':
                 print("'l' command processed", flush=True)
-                motor.motor_backward()
-                time.sleep(1)
-                motor.motor_brake()
-                
+                motor.move_to_load(adc)
+                motor.move_to_load(adc)
+
         else:
             print("\nKey received too soon — ignoring (cooldown active)", flush=True)
 
