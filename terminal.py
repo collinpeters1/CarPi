@@ -56,7 +56,7 @@ def listen_for_keys():
 # This funciton is meant to keep the user from button mashing and bricking the program.
 # The function performs an action (GPIO for motor control) if a valid key is pressed 
 # and returns command line time which is meant to enforce the cooldown.
-def process_key_queue(last_command_time, cooldown):
+def process_key_queue(last_command_time, cooldown, adc):
     try:
         key = key_queue.get_nowait()
         current_time = time.time()
@@ -98,6 +98,3 @@ def process_key_queue(last_command_time, cooldown):
 # Function to clear the terminal window
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-def currentvoltage(s_voltage):
-    return s_voltage
