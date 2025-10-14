@@ -41,11 +41,11 @@ def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
     print("[TEST] Stepping motor to Grow Position...")
 
     while True:
-        # Sample the voltage after each step
+        # Sample the voltage
         s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
         print(f"[DEBUG] Pot voltage: {s_voltage:.2f} V, Target: {GROW_POS:.2f} V")
 
-        # Exit loop if within range or safety overtravel
+        # Exit loop if exceed pot voltage of MAX grow position
         if abs(s_voltage - GROW_POS) <= tolerance or s_voltage > MAX_GROW_POS:
             break
 
@@ -67,8 +67,8 @@ def move_to_load(adc, channel=0, tolerance=0.01, speed=25):
         s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
         print(f"Pot voltage: {s_voltage:.2f} V, Target: {LOAD_POS:.2f} V")
         
-        # Exit loop if within range or safety overtravel
-        if abs(s_voltage - LOAD_POS) <= tolerance or s_voltage > MAX_LOAD_POS:
+        # Exit loop if pot voltage less than MAX load position
+        if abs(s_voltage - LOAD_POS) <= tolerance or s_voltage < MAX_LOAD_POS:
             break
 
         # Step the motor for a brief moment
