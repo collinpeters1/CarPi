@@ -66,7 +66,7 @@ def process_key_queue(last_command_time, cooldown, adc):
 # Testing code below
             if key == 'g':
                 print("'g' command processed", flush=True)
-                motor.move_to_grow
+                motor.move_to_grow(adc)
                 
             elif key == 'l':
                 print("'l' command processed", flush=True)
