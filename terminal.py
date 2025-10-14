@@ -73,9 +73,7 @@ def process_key_queue(last_command_time, cooldown, adc):
                 motor.motor_backward()
                 time.sleep(1)
                 motor.motor_brake()
-
-                # We need to drive the motor to the load postion
-                # Then stop the motor
+                
         else:
             print("\nKey received too soon — ignoring (cooldown active)", flush=True)
 

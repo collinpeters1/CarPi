@@ -35,17 +35,12 @@ def setup_pins():
     p = GPIO.PWM(ENABLE_PIN, PWM_FREQUENCY)
     print("GPIO enabled --- you are clear for launch\n")
 
-# Testing this function
+# This function moves the CAR to the grow position
+# The grow position needs to be set in the ADC_Chip.py file
 def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
     print("[TEST] Stepping motor to Grow Position...")
 
     while True:
-        # Step the motor for a brief moment
-        motor_forward(speed)
-        time.sleep(0.05)
-        motor_brake()
-        time.sleep(0.01)
-
         # Sample the voltage after each step
         s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
         print(f"[DEBUG] Pot voltage: {s_voltage:.2f} V, Target: {GROW_POS:.2f} V")
@@ -54,7 +49,35 @@ def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
         if abs(s_voltage - GROW_POS) <= tolerance or s_voltage > MAX_GROW_POS:
             break
 
-    print("[TEST] Grow position reached.")
+        # Step the motor for a brief moment
+        motor_forward(speed)
+        time.sleep(0.05)
+        motor_brake()
+        time.sleep(0.01)
+
+    print("Grow position reached.")
+
+# This function moves the CAR to the load position
+# The load position needs to be set in the ADC_Chip.py file
+def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
+    print("Stepping motor to Load Position...")
+
+    while True:
+        # Sample the voltage
+        s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
+        print(f"Pot voltage: {s_voltage:.2f} V, Target: {LOAD_POS:.2f} V")
+        
+        # Exit loop if within range or safety overtravel
+        if abs(s_voltage - LOAD_POS) <= tolerance or s_voltage > MAX_LOAD_POS:
+            break
+
+        # Step the motor for a brief moment
+        motor_forward(speed)
+        time.sleep(0.05)
+        motor_brake()
+        time.sleep(0.01)
+        
+    print("Load position reached.")
 
 
 # Function to drive the motor in a specified direction at a given speed.
