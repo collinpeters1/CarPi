@@ -12,7 +12,7 @@ import os
 import time
 import queue
 import motor_lib as motor
-import ADC_Chip as adc
+import ADC_Chip
 
 # Limited-size queue to store a single unprocessed key at a time
 key_queue = queue.Queue(maxsize=1)
@@ -71,7 +71,7 @@ def process_key_queue(last_command_time, cooldown, adc):
                 raw_value = adc.read_adc(channel_to_read)
                 s_voltage = 0
                 while(a):
-                    s_voltage = adc.get_stable_voltage(channel_to_read, adc.V_REF)
+                    s_voltage = ADC_Chip.get_stable_voltage(channel_to_read, ADC_Chip.V_REF)
                     if s_voltage == motor.GROW_POS:
                         motor.motor_brake()
                         a = 0
