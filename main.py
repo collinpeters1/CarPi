@@ -54,7 +54,7 @@ def main():
             last_command_time = terminal.process_key_queue(last_command_time, cooldown, adc)    
 
             # Wait for a second before the next reading
-            time.sleep(0.01)
+            time.sleep(1)
             terminal.clear_screen()
 
     except KeyboardInterrupt:
