@@ -1,6 +1,8 @@
 # Motor functions for PWM control
 
 import RPi.GPIO as GPIO
+import time
+import ADC_Chip
 
 # Global Values for CAR pot
 MAX_LOAD_POS = 0.66
@@ -32,6 +34,23 @@ def setup_pins():
     
     p = GPIO.PWM(ENABLE_PIN, PWM_FREQUENCY)
     print("GPIO enabled --- you are clear for launch\n")
+
+# Testing this function
+def move_to_grow(adc, channel=0, tolerance=0.01, speed=25):
+    print("[TEST] Moving to Load Hard Stop...")
+    s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
+    while s_voltage<GROW_POS & s_voltage<MAX_GROW_POS:
+        # Obtain smooth voltage from the ADC
+        s_voltage = adc.get_stable_voltage(channel, ADC_Chip.V_REF)
+        print(f"[DEBUG] Pot voltage: {s_voltage:.2f} V, Target: {LOAD_POS:.2f} V")
+        if s_voltage <= LOAD_POS + tolerance:
+            break
+        motor_backward(speed)
+        time.sleep(0.05)
+        motor_brake()
+        time.sleep(0.01)
+    print("[TEST] Load hard stop reached.")
+
 
 # Function to drive the motor in a specified direction at a given speed.
 # :param direction: grow position 'g', load position 'l'
